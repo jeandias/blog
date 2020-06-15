@@ -18,7 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login', 'API\UserController@login');
-Route::post('register', 'API\UserController@register');
+Route::post('/register', 'API\AuthController@register');
+Route::post('/login', 'API\AuthController@login');
+Route::middleware('auth:api')->post('/logout', function (Request $request) {
+    $request->user()->token()->revoke();
+});
 
 Route::middleware('auth:api')->post('/details', 'API\UserController@details');
